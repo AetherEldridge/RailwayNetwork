@@ -1,0 +1,35 @@
+*.java text eol=lf
+*.kt text eol=lf
+*.groovy text eol=lf
+*.gradle text eol=lf
+*.properties text eol=lf
+*.toml text eol=lf
+*.json text eol=lf
+*.xml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.jar binary
+*.zip binary
+*.ogg binary
+*.ttf binary
+*.obj binary
+*.mtl binary
+*.dae binary
+*.dat binary
+*.nbt binary
+
+META-INF/mods.toml text eol=lf
+META-INF/neoforge.mods.toml text eol=lf
+
+*.sh text eol=lf
+*.bat text eol=crlf
+
+gradle.properties merge=binary
+
+*.lang diff=properties
+
+*.toml diff=ini
