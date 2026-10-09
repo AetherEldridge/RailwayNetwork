@@ -2,15 +2,13 @@ package studio.mnohrato.railwaynetwork.modifiers;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import org.jetbrains.annotations.NotNull;
-import studio.mnohrato.railwaynetwork.config.Config;
-import studio.mnohrato.railwaynetwork.config.RailwayGenerationConfig;
-import studio.mnohrato.railwaynetwork.config.RailwayPlacementConfigSet;
+import studio.mnohrato.railwaynetwork.config.ForgeTOMLConfig;
+import studio.mnohrato.railwaynetwork.config.JSONConfig;
 import studio.mnohrato.railwaynetwork.content.RWNPlacementModifiers;
 
 import java.util.stream.Stream;
@@ -26,9 +24,9 @@ public class NetworkPlacementModifiers extends PlacementModifier
 	@Override
 	public Stream< BlockPos > getPositions( @NotNull PlacementContext ctx, @NotNull RandomSource rand, @NotNull BlockPos pos )
 	{
-		RailwayPlacementConfigSet set = Config.get( ctx.getLevel( ).getLevel( ).dimension( ).location( ) );
+		JSONConfig set = ForgeTOMLConfig.get( ctx.getLevel( ).getLevel( ).dimension( ).location( ) );
 		if( set == null ) return Stream.empty();
-		RailwayGenerationConfig cfg = set.generation( );
+		JSONConfig.WorldGen cfg = set.generation( );
 		if( !cfg.xChunkPos( ).contains( ( pos.getX( ) >> 4 ) % cfg.xCycle( ) ) &&
 			!cfg.zChunkPos( ).contains( ( pos.getZ( ) >> 4 ) % cfg.zCycle( ) ) &&
 			!cfg.xChunkPos( ).contains( -( pos.getX( ) >> 4 ) % cfg.xCycle( ) ) &&

@@ -2,17 +2,14 @@ package studio.mnohrato.railwaynetwork;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-import studio.mnohrato.railwaynetwork.config.Config;
+import studio.mnohrato.railwaynetwork.config.ForgeTOMLConfig;
 import studio.mnohrato.railwaynetwork.content.RWNBiomeModifiers;
 import studio.mnohrato.railwaynetwork.content.RWNFeatures;
 import studio.mnohrato.railwaynetwork.content.RWNPlacementModifiers;
@@ -27,7 +24,7 @@ public class RailwayNetwork
 	
 	public RailwayNetwork( @NotNull FMLJavaModLoadingContext ctx )
 	{
-		ctx.registerConfig( ModConfig.Type.COMMON, Config.SPEC( ) , MOD_ID + "/common.toml" );
+		ctx.registerConfig( ModConfig.Type.COMMON, ForgeTOMLConfig.SPEC( ) , MOD_ID + "/common.toml" );
 		IEventBus modEventBus = ctx.getModEventBus( );
 		
 		RWNBiomeModifiers.BIOME_MODIFIERS.register( modEventBus );

@@ -15,7 +15,7 @@ import java.util.Map;
 	modid = RailwayNetwork.MOD_ID,
 	bus = Mod.EventBusSubscriber.Bus.MOD
 )
-public class Config
+public class ForgeTOMLConfig
 {
 	private static final ForgeConfigSpec.Builder BD = new ForgeConfigSpec.Builder( );
 	private static final ForgeConfigSpec.ConfigValue< List< ? extends String > > DIMENSION_PROFILES = BD.define(
@@ -27,11 +27,11 @@ public class Config
 	private static final ForgeConfigSpec SPEC = BD.build( );
 	
 	private static final Map< ResourceLocation, String > PROFILES = new HashMap<>( );
-	private static final Map< String, RailwayPlacementConfigSet > CONFIG_SET = new HashMap<>( );
+	private static final Map< String, JSONConfig > CONFIG_SET = new HashMap<>( );
 	
 	public static int blockPlacingFlag;
 	
-	public static RailwayPlacementConfigSet get( ResourceLocation loc )
+	public static JSONConfig get( ResourceLocation loc )
 	{
 		return CONFIG_SET.get( PROFILES.get( loc ) );
 	}

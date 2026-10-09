@@ -19,69 +19,108 @@ import java.util.List;
 public class Parsers
 {
 	@NotNull
-	public static RailwayPlacementConfigSet parsePlacement( String levelName )
+	public static JSONConfig parsePlacement( String levelName )
 	{
-		RailwayPlacementConfigSet.RailwayPlacementConfig x = Parsers.parseBridgePlacement( levelName, "rail_x" );
-		RailwayPlacementConfigSet.RailwayPlacementConfig z = Parsers.parseBridgePlacement( levelName, "rail_z" );
-		RailwayPlacementConfigSet.RailwayPlacementConfig c = Parsers.parseBridgePlacement( levelName, "rail_c" );
+		JSONConfig.Bridge x = Parsers.parseBridge( levelName, "rail_x" );
+		JSONConfig.Bridge z = Parsers.parseBridge( levelName, "rail_z" );
+		JSONConfig.Bridge c = Parsers.parseBridge( levelName, "rail_c" );
+		JSONConfig.Pier p = Parsers.parsePier( levelName );
+		JSONConfig.WorldGen g = Parsers.parseWorldGen( levelName );
 		
-		RailwayGenerationConfig g = Parsers.parseGeneration( levelName );
-		
-		return new RailwayPlacementConfigSet( x, z, c, g );
+		return new JSONConfig( x, z, c, p, g );
 	}
 	
 	@Nullable
-	public static RailwayPlacementConfigSet.RailwayPlacementConfig parseBridgePlacement( String levelName, String fileName )
+	public static JSONConfig.Bridge parseBridge( String levelName, String fileName )
 	{
 		String target = "%s/%s/%s/%s.json".formatted( FMLPaths.CONFIGDIR.get( ).toString( ), RailwayNetwork.MOD_ID, levelName, fileName );
 		String resource = "/data/%s/%s/%s/%s.json".formatted( RailwayNetwork.MOD_ID, RailwayNetwork.MOD_ID, levelName, fileName );
 		try
 		{
 			JsonElement je = new Gson( ).fromJson( new FileReader( target ), JsonElement.class );
-			return RailwayPlacementConfigSet.RailwayPlacementConfig.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
+			return JSONConfig.Bridge.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
 		}
-		catch( FileNotFoundException fileNotFoundException )
+		catch( RuntimeException | FileNotFoundException rt )
 		{
 			copyDefaultConfig( resource, target );
 			
 			try
 			{
 				JsonElement je = new Gson( ).fromJson( new FileReader( target ), JsonElement.class );
-				return RailwayPlacementConfigSet.RailwayPlacementConfig.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
+				return JSONConfig.Bridge.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
 			}
-			catch( FileNotFoundException fileNotFoundAgain )
+			catch( FileNotFoundException fnf )
 			{
-				RailwayNetwork.LOGGER.warn( "File not found: ", fileNotFoundAgain );
-				return null;
+				RailwayNetwork.LOGGER.warn( "File not found: ", fnf );
 			}
+			catch( RuntimeException rrt )
+			{
+				RailwayNetwork.LOGGER.warn( "Failed to parse: ", rrt );
+			}
+			return null;
 		}
 	}
 	
 	
 	@Nullable
-	public static RailwayGenerationConfig parseGeneration( String levelName )
+	public static JSONConfig.WorldGen parseWorldGen( String levelName )
 	{
 		String target = "%s/%s/%s/gen.json".formatted( FMLPaths.CONFIGDIR.get( ).toString( ), RailwayNetwork.MOD_ID, levelName );
 		String resource = "/data/%s/%s/%s/gen.json".formatted( RailwayNetwork.MOD_ID, RailwayNetwork.MOD_ID, levelName );
 		try
 		{
 			JsonElement je = new Gson( ).fromJson( new FileReader( target ), JsonElement.class );
-			return RailwayGenerationConfig.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
+			return JSONConfig.WorldGen.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
 		}
-		catch( FileNotFoundException fileNotFoundException )
+		catch( RuntimeException | FileNotFoundException rt )
 		{
 			copyDefaultConfig( resource, target );
 			
 			try
 			{
 				JsonElement je = new Gson( ).fromJson( new FileReader( target ), JsonElement.class );
-				return RailwayGenerationConfig.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
+				return JSONConfig.WorldGen.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
 			}
-			catch( FileNotFoundException fileNotFoundAgain )
+			catch( FileNotFoundException fnf )
 			{
-				RailwayNetwork.LOGGER.warn( "File not found: ", fileNotFoundAgain );
-				return null;
+				RailwayNetwork.LOGGER.warn( "File not found: ", fnf );
 			}
+			catch( RuntimeException rrt )
+			{
+				RailwayNetwork.LOGGER.warn( "Failed to parse: ", rrt );
+			}
+			return null;
+		}
+	}
+	
+	@Nullable
+	public static JSONConfig.Pier parsePier( String levelName )
+	{
+		String target = "%s/%s/%s/pier.json".formatted( FMLPaths.CONFIGDIR.get( ).toString( ), RailwayNetwork.MOD_ID, levelName );
+		String resource = "/data/%s/%s/%s/pier.json".formatted( RailwayNetwork.MOD_ID, RailwayNetwork.MOD_ID, levelName );
+		try
+		{
+			JsonElement je = new Gson( ).fromJson( new FileReader( target ), JsonElement.class );
+			return JSONConfig.Pier.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
+		}
+		catch( RuntimeException | FileNotFoundException rt )
+		{
+			copyDefaultConfig( resource, target );
+			
+			try
+			{
+				JsonElement je = new Gson( ).fromJson( new FileReader( target ), JsonElement.class );
+				return JSONConfig.Pier.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
+			}
+			catch( FileNotFoundException rnf )
+			{
+				RailwayNetwork.LOGGER.warn( "File not found: ", rnf );
+			}
+			catch( RuntimeException rrt )
+			{
+				RailwayNetwork.LOGGER.warn( "Failed to parse: ", rrt );
+			}
+			return null;
 		}
 	}
 	
@@ -102,9 +141,9 @@ public class Parsers
 			Files.createDirectories( target.getParent( ) );
 			Files.copy( in, target, StandardCopyOption.REPLACE_EXISTING );
 		}
-		catch( IOException e )
+		catch( IOException io )
 		{
-			RailwayNetwork.LOGGER.warn( "Failed to copy default config: ", e );
+			RailwayNetwork.LOGGER.warn( "Failed to copy default config: ", io );
 		}
 	}
 	

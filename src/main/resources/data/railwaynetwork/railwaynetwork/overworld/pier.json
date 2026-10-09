@@ -1,0 +1,8 @@
+{
+  "max_distance": 6,
+  "pier_type": "PILLAR",
+  "material": {
+    "minecraft:polished_andesite": 10,
+    "minecraft:andesite": 1
+  }
+}

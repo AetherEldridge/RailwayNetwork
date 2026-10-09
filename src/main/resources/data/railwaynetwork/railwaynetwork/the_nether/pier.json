@@ -1,0 +1,7 @@
+{
+  "max_distance": 6,
+  "pier_type": "FRUSTUM",
+  "material": {
+    "minecraft:nether_bricks": 1
+  }
+}

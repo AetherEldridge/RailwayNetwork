@@ -1,0 +1,7 @@
+{
+  "max_distance": 6,
+  "pier_type": "FLOATER",
+  "material": {
+    "minecraft:end_stone_bricks": 1
+  }
+}
