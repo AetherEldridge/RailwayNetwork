@@ -103,6 +103,8 @@ dependencies {
 		"curse.maven:oculus-581495:6020952",
 		"curse.maven:euphoria-patches-915902:8791862",
 		"curse.maven:chunky-pregenerator-forge-485681:5320028",
+		"curse.maven:xaeros-minimap-263420:9067172",
+		"curse.maven:xaeros-world-map-317780:8698646"
 	].forEach {
 		runtimeOnly fg.deobf(it)
 	}
@@ -113,6 +115,8 @@ tasks.named('processResources', ProcessResources).configure {
 		minecraft_version_range: minecraft_version_range,
 		forge_version_range: forge_version_range,
 		loader_version_range: loader_version_range,
+		
+		create_version_range: create_version_range,
 		
 		mod_id: mod_id,
 		mod_name: mod_name,
