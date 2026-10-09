@@ -1,12 +1,10 @@
 {
   "palette": {
     "A": {
-      "minecraft:polished_andesite_slab[type=top]": 30,
-      "minecraft:andesite_slab[type=top]": 1
+      "minecraft:end_stone_brick_slab[type=top]": 1
     },
     "#": {
-      "minecraft:polished_andesite": 30,
-      "minecraft:andesite": 1
+      "minecraft:end_stone_bricks": 1
     },
     "B": {
       "minecraft:smooth_stone_slab[type=top]": 1

@@ -1,0 +1,113 @@
+{
+  "palette": {
+    "A": {
+      "minecraft:end_stone_brick_slab[type=top]": 1
+    },
+    "#": {
+      "minecraft:end_stone_bricks": 1
+    },
+    "B": {
+      "minecraft:smooth_stone_slab[type=top]": 1
+    },
+    "b": {
+      "minecraft:smooth_stone_slab[type=bottom]": 1
+    },
+    "@": {
+      "minecraft:smooth_stone": 1
+    },
+    "R": {
+      "create:track[shape=xo]": 1
+    },
+    "I": {
+      "create:andesite_bars[east=true,west=true]": 1
+    },
+    " ": {
+      "minecraft:air": 1
+    },
+    "V": {
+      "minecraft:structure_void": 1
+    }
+  },
+  "slice": [
+    [
+      "  AA########AA  ",
+      "  AA########AA  ",
+      "  AA########AA  ",
+      "  AA########AA  ",
+      "  AA########AA  ",
+      "  AA########AA  ",
+      "  AA########AA  ",
+      "  AA########AA  ",
+      "  AA########AA  ",
+      "  AA########AA  ",
+      "  AA########AA  ",
+      "  AA########AA  ",
+      "  AA########AA  ",
+      "  AA########AA  ",
+      "  AA########AA  ",
+      "  AA########AA  "
+    ],
+    [
+      "B@@b@@@bb@@@b@@B",
+      "B@@b@@@bb@@@b@@B",
+      "B@@b@@@bb@@@b@@B",
+      "B@@b@@@bb@@@b@@B",
+      "B@@b@@@bb@@@b@@B",
+      "B@@b@@@bb@@@b@@B",
+      "B@@b@@@bb@@@b@@B",
+      "B@@b@@@bb@@@b@@B",
+      "B@@b@@@bb@@@b@@B",
+      "B@@b@@@bb@@@b@@B",
+      "B@@b@@@bb@@@b@@B",
+      "B@@b@@@bb@@@b@@B",
+      "B@@b@@@bb@@@b@@B",
+      "B@@b@@@bb@@@b@@B",
+      "B@@b@@@bb@@@b@@B",
+      "B@@b@@@bb@@@b@@B"
+    ],
+    [
+      "I I  R    R  I I",
+      "I I  R    R  I I",
+      "I I  R    R  I I",
+      "I I  R    R  I I",
+      "I I  R    R  I I",
+      "I I  R    R  I I",
+      "I I  R    R  I I",
+      "I I  R    R  I I",
+      "I I  R    R  I I",
+      "I I  R    R  I I",
+      "I I  R    R  I I",
+      "I I  R    R  I I",
+      "I I  R    R  I I",
+      "I I  R    R  I I",
+      "I I  R    R  I I",
+      "I I  R    R  I I"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "V              V",
+      "V              V",
+      "V              V",
+      "V              V",
+      "V              V",
+      "V              V",
+      "V              V",
+      "V              V",
+      "V              V",
+      "V              V",
+      "V              V",
+      "V              V",
+      "V              V",
+      "V              V",
+      "V              V",
+      "V              V"
+    ]
+  ]
+}

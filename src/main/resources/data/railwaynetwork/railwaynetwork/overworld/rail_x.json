@@ -1,0 +1,115 @@
+{
+  "palette": {
+    "A": {
+      "minecraft:polished_andesite_slab[type=top]": 10,
+      "minecraft:andesite_slab[type=top]": 1
+    },
+    "#": {
+      "minecraft:polished_andesite": 10,
+      "minecraft:andesite": 1
+    },
+    "B": {
+      "minecraft:smooth_stone_slab[type=top]": 1
+    },
+    "b": {
+      "minecraft:smooth_stone_slab[type=bottom]": 1
+    },
+    "@": {
+      "minecraft:smooth_stone": 1
+    },
+    "R": {
+      "create:track[shape=zo]": 1
+    },
+    "I": {
+      "create:andesite_bars[north=true,south=true]": 1
+    },
+    " ": {
+      "minecraft:air": 1
+    },
+    "V": {
+      "minecraft:structure_void": 1
+    }
+  },
+  "slice": [
+    [
+      "                ",
+      "                ",
+      "AAAAAAAAAAAAAAAA",
+      "AAAAAAAAAAAAAAAA",
+      "################",
+      "################",
+      "################",
+      "################",
+      "################",
+      "################",
+      "################",
+      "################",
+      "AAAAAAAAAAAAAAAA",
+      "AAAAAAAAAAAAAAAA",
+      "                ",
+      "                "
+    ],
+    [
+      "BBBBBBBBBBBBBBBB",
+      "@@@@@@@@@@@@@@@@",
+      "@@@@@@@@@@@@@@@@",
+      "bbbbbbbbbbbbbbbb",
+      "@@@@@@@@@@@@@@@@",
+      "@@@@@@@@@@@@@@@@",
+      "@@@@@@@@@@@@@@@@",
+      "bbbbbbbbbbbbbbbb",
+      "bbbbbbbbbbbbbbbb",
+      "@@@@@@@@@@@@@@@@",
+      "@@@@@@@@@@@@@@@@",
+      "@@@@@@@@@@@@@@@@",
+      "bbbbbbbbbbbbbbbb",
+      "@@@@@@@@@@@@@@@@",
+      "@@@@@@@@@@@@@@@@",
+      "BBBBBBBBBBBBBBBB"
+    ],
+    [
+      "IIIIIIIIIIIIIIII",
+      "                ",
+      "IIIIIIIIIIIIIIII",
+      "                ",
+      "                ",
+      "RRRRRRRRRRRRRRRR",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "RRRRRRRRRRRRRRRR",
+      "                ",
+      "                ",
+      "IIIIIIIIIIIIIIII",
+      "                ",
+      "IIIIIIIIIIIIIIII"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "VVVVVVVVVVVVVVVV",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "VVVVVVVVVVVVVVVV"
+    ]
+  ]
+}

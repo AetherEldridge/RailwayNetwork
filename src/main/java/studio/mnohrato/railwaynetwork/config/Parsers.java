@@ -6,6 +6,7 @@ import com.mojang.serialization.JsonOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import studio.mnohrato.railwaynetwork.RailwayNetwork;
 
 import java.io.*;
@@ -17,33 +18,69 @@ import java.util.List;
 
 public class Parsers
 {
-	public static RailwayPlacementConfig parsePlacement( String fileName )
+	@NotNull
+	public static RailwayPlacementConfigSet parsePlacement( String levelName )
 	{
-		String target = "%s/%s/placements/%s.json".formatted( FMLPaths.CONFIGDIR.get( ).toString( ), RailwayNetwork.MOD_ID, fileName );
-		String resource = "/data/%s/%s/%s.json".formatted( RailwayNetwork.MOD_ID, RailwayNetwork.MOD_ID, fileName );
+		RailwayPlacementConfigSet.RailwayPlacementConfig x = Parsers.parseBridgePlacement( levelName, "rail_x" );
+		RailwayPlacementConfigSet.RailwayPlacementConfig z = Parsers.parseBridgePlacement( levelName, "rail_z" );
+		RailwayPlacementConfigSet.RailwayPlacementConfig c = Parsers.parseBridgePlacement( levelName, "rail_c" );
+		
+		RailwayGenerationConfig g = Parsers.parseGeneration( levelName );
+		
+		return new RailwayPlacementConfigSet( x, z, c, g );
+	}
+	
+	@Nullable
+	public static RailwayPlacementConfigSet.RailwayPlacementConfig parseBridgePlacement( String levelName, String fileName )
+	{
+		String target = "%s/%s/%s/%s.json".formatted( FMLPaths.CONFIGDIR.get( ).toString( ), RailwayNetwork.MOD_ID, levelName, fileName );
+		String resource = "/data/%s/%s/%s/%s.json".formatted( RailwayNetwork.MOD_ID, RailwayNetwork.MOD_ID, levelName, fileName );
 		try
 		{
-			JsonElement je = new Gson( ).fromJson(
-				new FileReader( target ),
-				JsonElement.class
-			);
-			return RailwayPlacementConfig.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
+			JsonElement je = new Gson( ).fromJson( new FileReader( target ), JsonElement.class );
+			return RailwayPlacementConfigSet.RailwayPlacementConfig.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
 		}
 		catch( FileNotFoundException fileNotFoundException )
 		{
-			copyDefaultConfig( resource , target );
+			copyDefaultConfig( resource, target );
 			
 			try
 			{
-				JsonElement je = new Gson( ).fromJson(
-					new FileReader( target ),
-					JsonElement.class
-				);
-				return RailwayPlacementConfig.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
+				JsonElement je = new Gson( ).fromJson( new FileReader( target ), JsonElement.class );
+				return RailwayPlacementConfigSet.RailwayPlacementConfig.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
 			}
 			catch( FileNotFoundException fileNotFoundAgain )
 			{
-				throw new RuntimeException( fileNotFoundAgain );
+				RailwayNetwork.LOGGER.warn( "File not found: ", fileNotFoundAgain );
+				return null;
+			}
+		}
+	}
+	
+	
+	@Nullable
+	public static RailwayGenerationConfig parseGeneration( String levelName )
+	{
+		String target = "%s/%s/%s/gen.json".formatted( FMLPaths.CONFIGDIR.get( ).toString( ), RailwayNetwork.MOD_ID, levelName );
+		String resource = "/data/%s/%s/%s/gen.json".formatted( RailwayNetwork.MOD_ID, RailwayNetwork.MOD_ID, levelName );
+		try
+		{
+			JsonElement je = new Gson( ).fromJson( new FileReader( target ), JsonElement.class );
+			return RailwayGenerationConfig.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
+		}
+		catch( FileNotFoundException fileNotFoundException )
+		{
+			copyDefaultConfig( resource, target );
+			
+			try
+			{
+				JsonElement je = new Gson( ).fromJson( new FileReader( target ), JsonElement.class );
+				return RailwayGenerationConfig.CODEC.parse( JsonOps.INSTANCE, je ).get( ).orThrow( );
+			}
+			catch( FileNotFoundException fileNotFoundAgain )
+			{
+				RailwayNetwork.LOGGER.warn( "File not found: ", fileNotFoundAgain );
+				return null;
 			}
 		}
 	}
@@ -67,14 +104,14 @@ public class Parsers
 		}
 		catch( IOException e )
 		{
-			e.printStackTrace( );
+			RailwayNetwork.LOGGER.warn( "Failed to copy default config: ", e );
 		}
 	}
 	
 	@NotNull
-	public static HashMap< ResourceLocation, Integer > parseResourceLocationInteger( List< ? extends String > mapStrings )
+	public static HashMap< ResourceLocation, String > parseProfile( List< ? extends String > mapStrings )
 	{
-		HashMap< ResourceLocation, Integer > heightsInLevel = new HashMap<>( );
+		HashMap< ResourceLocation, String > heightsInLevel = new HashMap<>( );
 		
 		if( mapStrings != null )
 		{
@@ -84,7 +121,7 @@ public class Parsers
 				
 				try
 				{
-					heightsInLevel.put( ResourceLocation.parse( parts[ 0 ] ), Integer.parseInt( parts[ 1 ] ) );
+					heightsInLevel.put( ResourceLocation.parse( parts[ 0 ] ), parts[ 1 ] );
 				}
 				catch( RuntimeException ignored )
 				{

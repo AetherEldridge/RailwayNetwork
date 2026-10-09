@@ -12,8 +12,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-import studio.mnohrato.railwaynetwork.cache.TemplateCache;
 import studio.mnohrato.railwaynetwork.config.Config;
+import studio.mnohrato.railwaynetwork.content.RWNBiomeModifiers;
 import studio.mnohrato.railwaynetwork.content.RWNFeatures;
 import studio.mnohrato.railwaynetwork.content.RWNPlacementModifiers;
 
@@ -30,6 +30,7 @@ public class RailwayNetwork
 		ctx.registerConfig( ModConfig.Type.COMMON, Config.SPEC( ) , MOD_ID + "/common.toml" );
 		IEventBus modEventBus = ctx.getModEventBus( );
 		
+		RWNBiomeModifiers.BIOME_MODIFIERS.register( modEventBus );
 		RWNPlacementModifiers.PLACEMENT_MODIFIERS.register( modEventBus );
 		RWNFeatures.FEATURES.register( modEventBus );
 	}
@@ -41,14 +42,5 @@ public class RailwayNetwork
 	public static ResourceLocation rl( String s )
 	{
 		return ResourceLocation.fromNamespaceAndPath( MOD_ID , s );
-	}
-	
-	@NotNull
-	@Contract(
-		value = "-> new"
-	)
-	public static ResourceLocation emptyRl( )
-	{
-		return rl( "empty" );
 	}
 }

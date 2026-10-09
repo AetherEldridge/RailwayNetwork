@@ -1,14 +1,15 @@
 package studio.mnohrato.railwaynetwork.config;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import studio.mnohrato.railwaynetwork.RailwayNetwork;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Mod.EventBusSubscriber(
 	modid = RailwayNetwork.MOD_ID,
@@ -16,39 +17,23 @@ import java.util.List;
 )
 public class Config
 {
-	public static final ForgeConfigSpec.Builder BD;
-	public static final ForgeConfigSpec.ConfigValue< List< ? extends String > > DIM_HEIGHT;
-	public static final ForgeConfigSpec.IntValue X_CYCLE;
-	public static final ForgeConfigSpec.IntValue X_OFFSET;
-	public static final ForgeConfigSpec.ConfigValue< List< ? extends Integer > > X_AT;
-	public static final ForgeConfigSpec.IntValue Z_CYCLE;
-	public static final ForgeConfigSpec.IntValue Z_OFFSET;
-	public static final ForgeConfigSpec.ConfigValue< List< ? extends Integer > > Z_AT;
-	public static final ForgeConfigSpec SPEC;
+	private static final ForgeConfigSpec.Builder BD = new ForgeConfigSpec.Builder( );
+	private static final ForgeConfigSpec.ConfigValue< List< ? extends String > > DIMENSION_PROFILES = BD.define(
+		"profiles",
+		List.of( "minecraft:overworld=overworld", "minecraft:the_nether=the_nether", "minecraft:the_end=the_end" ),
+		Predicators::testDimProfile
+	);
+	private static final ForgeConfigSpec.IntValue BLOCK_PLACING_FLAG = BD.defineInRange( "block_placing_flag", 2, 1, 127 );
+	private static final ForgeConfigSpec SPEC = BD.build( );
 	
-	static
+	private static final Map< ResourceLocation, String > PROFILES = new HashMap<>( );
+	private static final Map< String, RailwayPlacementConfigSet > CONFIG_SET = new HashMap<>( );
+	
+	public static int blockPlacingFlag;
+	
+	public static RailwayPlacementConfigSet get( ResourceLocation loc )
 	{
-		BD = new ForgeConfigSpec.Builder( );
-		BD.push( "generation" );
-		{
-			DIM_HEIGHT = BD.define( "height", List.of( "minecraft:overworld=64" ), Predicators::testDimHeight );
-			BD.push( "x_direction" );
-			{
-				X_CYCLE = BD.defineInRange( "cycle_in_chunk", 64, 0, Integer.MAX_VALUE );
-				X_OFFSET = BD.defineInRange( "offset_in_block", 0, -16, 16 );
-				X_AT = BD.defineList( "at_chunk", List.of( 30, 20, 50 ), Predicators::testPositiveInt );
-			}
-			BD.pop( );
-			BD.push( "z_direction" );
-			{
-				Z_CYCLE = BD.defineInRange( "cycle_in_chunk", 100, 0, Integer.MAX_VALUE );
-				Z_OFFSET = BD.defineInRange( "offset_in_block", 0, -16, 16 );
-				Z_AT = BD.defineList( "at_chunk", List.of( 70, 90, 91 ), Predicators::testPositiveInt );
-			}
-			BD.pop( );
-		}
-		BD.pop( );
-		SPEC = BD.build( );
+		return CONFIG_SET.get( PROFILES.get( loc ) );
 	}
 	
 	public static ForgeConfigSpec SPEC( )
@@ -56,27 +41,15 @@ public class Config
 		return SPEC;
 	}
 	
-	public static RailwayGenerationConfig rwpc;
-	public static RailwayPlacementConfig rwmcX;
-	public static RailwayPlacementConfig rwmcZ;
-	public static RailwayPlacementConfig rwmcC;
-	
 	@SubscribeEvent
 	public static void onLoad( ModConfigEvent event )
 	{
-		rwpc = new RailwayGenerationConfig(
-			X_OFFSET.get( ),
-			Z_OFFSET.get( ),
-			X_CYCLE.get( ),
-			Z_CYCLE.get( ),
-			ImmutableList.copyOf( X_AT.get( ) ),
-			ImmutableList.copyOf( Z_AT.get( ) ),
-			ImmutableMap.copyOf( Parsers.parseResourceLocationInteger( DIM_HEIGHT.get( ) ) )
-		);
+		blockPlacingFlag = BLOCK_PLACING_FLAG.get( );
 		
-		rwmcX = Parsers.parsePlacement( "rail_x" );
-		rwmcZ = Parsers.parsePlacement( "rail_z" );
-		rwmcC = Parsers.parsePlacement( "rail_c" );
+		HashMap< ResourceLocation, String > result = Parsers.parseProfile( DIMENSION_PROFILES.get( ) );
+		result.forEach( ( loc, prof ) -> {
+			PROFILES.put( loc, prof );
+			CONFIG_SET.put( prof, Parsers.parsePlacement( prof ) );
+		} );
 	}
-	
 }

@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import studio.mnohrato.railwaynetwork.config.Config;
 import studio.mnohrato.railwaynetwork.config.RailwayGenerationConfig;
-import studio.mnohrato.railwaynetwork.config.RailwayPlacementConfig;
+import studio.mnohrato.railwaynetwork.config.RailwayPlacementConfigSet;
 import studio.mnohrato.railwaynetwork.util.AliasMethod;
 
 import java.util.List;
@@ -34,20 +34,18 @@ public class RailwayFeature extends Feature< NoneFeatureConfiguration >
 		WorldGenLevel level = ctx.level( );
 		BlockPos origin = ctx.origin( );
 		RandomSource rand = ctx.random( );
-		RailwayGenerationConfig cfg = Config.rwpc;
+		RailwayPlacementConfigSet cfg = Config.get( level.getLevel( ).dimension( ).location( ) );
+		RailwayGenerationConfig generation = cfg.generation( );
 		
 		int chunkX = origin.getX( ) >> 4;
 		int chunkZ = origin.getZ( ) >> 4;
+		if( !isAlongX( generation, chunkX ) && !isAlongZ( generation, chunkZ ) ) return false;
 		
-		Integer height = cfg.levelHeightMap( ).get( level.getLevel( ).dimension( ).location( ) );
-		if( height == null ) return false;
-		if( !isAlongX( cfg, chunkX ) && !isAlongZ( cfg, chunkZ ) ) return false;
-		
-		int y = height;
-		BlockPos newOrigin = new BlockPos( chunkX << 4, y, chunkZ << 4 );
+		int height = generation.y( );
+		BlockPos newOrigin = new BlockPos( ( chunkX << 4 ) + generation.xOff( ), height, ( chunkZ << 4 ) + generation.zOff( ) );
 		BlockPos.MutableBlockPos mutable = newOrigin.mutable( );
 		
-		RailwayPlacementConfig type = getType( cfg, chunkX, chunkZ );
+		RailwayPlacementConfigSet.RailwayPlacementConfig type = getType( generation, level.getLevel( ), chunkX, chunkZ );
 		if( type == null ) return false;
 		
 		Map< String, Map< BlockState, Integer > > palette = type.palette( );
@@ -79,9 +77,10 @@ public class RailwayFeature extends Feature< NoneFeatureConfiguration >
 						if( weightTable.isEmpty( ) ) continue;
 						
 						BlockState state = AliasMethod.getRandom( weightTable );
-						if( state.is( Blocks.STRUCTURE_VOID ) ) continue;
+						BlockState target = level.getBlockState( mutable );
+						if( state.is( Blocks.STRUCTURE_VOID ) || target.is( Blocks.BEDROCK ) ) continue;
 						mutable.set( newOrigin.getX( ) + dx, newOrigin.getY( ) + dy, newOrigin.getZ( ) + dz );
-						level.setBlock( mutable, state, Block.UPDATE_ALL_IMMEDIATE );
+						level.setBlock( mutable, state, Config.blockPlacingFlag );
 					}
 				}
 			}
@@ -91,11 +90,13 @@ public class RailwayFeature extends Feature< NoneFeatureConfiguration >
 	}
 	
 	@Nullable
-	private static RailwayPlacementConfig getType( RailwayGenerationConfig cfg, int chunkX, int chunkZ )
+	private static RailwayPlacementConfigSet.RailwayPlacementConfig getType( RailwayGenerationConfig cfg, @NotNull ServerLevel level, int chunkX, int chunkZ )
 	{
-		if( isAlongX( cfg, chunkX ) && isAlongZ( cfg, chunkZ ) ) return Config.rwmcC;
-		if( isAlongX( cfg, chunkX ) ) return Config.rwmcX;
-		if( isAlongZ( cfg, chunkZ ) ) return Config.rwmcZ;
+		RailwayPlacementConfigSet cfgSet = Config.get( level.dimension( ).location( ) );
+		
+		if( isAlongX( cfg, chunkX ) && isAlongZ( cfg, chunkZ ) ) return cfgSet.railC( );
+		if( isAlongX( cfg, chunkX ) ) return cfgSet.railX( );
+		if( isAlongZ( cfg, chunkZ ) ) return cfgSet.railZ( );
 		return null;
 	}
 	

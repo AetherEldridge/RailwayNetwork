@@ -1,0 +1,134 @@
+{
+  "palette": {
+    "A": {
+      "minecraft:nether_brick_slab[type=top]": 1
+    },
+    "#": {
+      "minecraft:nether_bricks": 1
+    },
+    "B": {
+      "minecraft:smooth_stone_slab[type=top]": 1
+    },
+    "b": {
+      "minecraft:smooth_stone_slab[type=bottom]": 1
+    },
+    "@": {
+      "minecraft:smooth_stone": 1
+    },
+    "R": {
+      "create:track[shape=zo]": 1
+    },
+    "r": {
+      "create:track[shape=xo]": 1
+    },
+    "O": {
+      "create:track[shape=cr_o]": 1
+    },
+    "i": {
+      "create:andesite_bars[north=true,south=true]": 1
+    },
+    "I": {
+      "create:andesite_bars[east=true,west=true]": 1
+    },
+    "1": {
+      "create:andesite_bars[west=true,north=true]": 1
+    },
+    "2": {
+      "create:andesite_bars[west=true,south=true]": 1
+    },
+    "3": {
+      "create:andesite_bars[east=true,south=true]": 1
+    },
+    "4": {
+      "create:andesite_bars[east=true,north=true]": 1
+    },
+    " ": {
+      "minecraft:air": 1
+    },
+    "V": {
+      "minecraft:structure_void": 1
+    }
+  },
+  "slice": [
+    [
+      "  AA########AA  ",
+      "  AA########AA  ",
+      "AAAA########AAAA",
+      "AAAA########AAAA",
+      "################",
+      "################",
+      "################",
+      "################",
+      "################",
+      "################",
+      "################",
+      "################",
+      "AAAA########AAAA",
+      "AAAA########AAAA",
+      "  AA########AA  ",
+      "  AA########AA  "
+    ],
+    [
+      "B@@b@@@bb@@@b@@B",
+      "@@@b@@@bb@@@b@@@",
+      "@@@b@@@bb@@@b@@@",
+      "bbbb@@@bb@@@bbbb",
+      "@@@@@@@@@@@@@@@@",
+      "@@@@@@@@@@@@@@@@",
+      "@@@@@@@@@@@@@@@@",
+      "bbbb@@@bb@@@bbbb",
+      "bbbb@@@bb@@@bbbb",
+      "@@@@@@@@@@@@@@@@",
+      "@@@@@@@@@@@@@@@@",
+      "@@@@@@@@@@@@@@@@",
+      "bbbb@@@bb@@@bbbb",
+      "@@@b@@@bb@@@b@@@",
+      "@@@b@@@bb@@@b@@@",
+      "B@@b@@@bb@@@b@@B"
+    ],
+    [
+      "1 I  r    r  I 2",
+      "  I  r    r  I  ",
+      "ii1  r    r  2ii",
+      "     r    r     ",
+      "     r    r     ",
+      "RRRRRORRRRORRRRR",
+      "     r    r     ",
+      "     r    r     ",
+      "     r    r     ",
+      "     r    r     ",
+      "RRRRRORRRRORRRRR",
+      "     r    r     ",
+      "     r    r     ",
+      "ii4  r    r  3ii",
+      "  I  r    r  I  ",
+      "4 I  r    r  I 3"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "V              V",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "                ",
+      "V              V"
+    ]
+  ]
+}

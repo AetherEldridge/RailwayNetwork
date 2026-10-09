@@ -10,6 +10,7 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import org.jetbrains.annotations.NotNull;
 import studio.mnohrato.railwaynetwork.config.Config;
 import studio.mnohrato.railwaynetwork.config.RailwayGenerationConfig;
+import studio.mnohrato.railwaynetwork.config.RailwayPlacementConfigSet;
 import studio.mnohrato.railwaynetwork.content.RWNPlacementModifiers;
 
 import java.util.stream.Stream;
@@ -25,18 +26,14 @@ public class NetworkPlacementModifiers extends PlacementModifier
 	@Override
 	public Stream< BlockPos > getPositions( @NotNull PlacementContext ctx, @NotNull RandomSource rand, @NotNull BlockPos pos )
 	{
-		RailwayGenerationConfig cfg = Config.rwpc;
-		
+		RailwayPlacementConfigSet set = Config.get( ctx.getLevel( ).getLevel( ).dimension( ).location( ) );
+		if( set == null ) return Stream.empty();
+		RailwayGenerationConfig cfg = set.generation( );
 		if( !cfg.xChunkPos( ).contains( ( pos.getX( ) >> 4 ) % cfg.xCycle( ) ) &&
 			!cfg.zChunkPos( ).contains( ( pos.getZ( ) >> 4 ) % cfg.zCycle( ) ) &&
 			!cfg.xChunkPos( ).contains( -( pos.getX( ) >> 4 ) % cfg.xCycle( ) ) &&
 			!cfg.zChunkPos( ).contains( -( pos.getZ( ) >> 4 ) % cfg.zCycle( ) ) ) return Stream.empty( );
-		
-		ServerLevel level = ctx.getLevel( ).getLevel( );
-		Integer y = cfg.levelHeightMap( ).get( level.dimension( ).location( ) );
-		if( y == null ) return Stream.empty( );
-		
-		return Stream.of( new BlockPos( pos.getX( ) >> 4 << 4, y, pos.getZ( ) >> 4 << 4 ) );
+		return Stream.of( new BlockPos( pos.getX( ) >> 4 << 4, cfg.y( ), pos.getZ( ) >> 4 << 4 ) );
 	}
 	
 	@NotNull
