@@ -15,10 +15,8 @@ import studio.mnohrato.railwaynetwork.config.ForgeTOMLConfig;
 import studio.mnohrato.railwaynetwork.config.JSONConfig;
 import studio.mnohrato.railwaynetwork.util.AliasMethod;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 
 public class RailwayFeature extends Feature< NoneFeatureConfiguration >
 {
