@@ -38,7 +38,7 @@ public class RWNBiomeModifiers
 		
 		context.register(
 			Keys.ADD_RAILWAYS,
-			new AddRailwayBiomeModifier( HolderSet.direct( placed.getOrThrow( RWNFeatures.NORMAL_RAILWAYS.placed( ) ) ), GenerationStep.Decoration.SURFACE_STRUCTURES )
+			new AddRailwayBiomeModifier( HolderSet.direct( placed.getOrThrow( RWNFeatures.NORMAL_RAILWAYS.placed( ) ) ), GenerationStep.Decoration.RAW_GENERATION )
 		);
 	}
 }
